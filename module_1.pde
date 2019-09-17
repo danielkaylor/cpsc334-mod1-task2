@@ -4,21 +4,25 @@ float xChange, yChange;
 float firstX, firstY, lastX, lastY;
 float lastcX, lastcY, firstcX, firstcY;
 float r, g, b;
+float t;
+
+ArrayList<PVector> points = new ArrayList<PVector>();
 
 void setup() {  // setup() runs once
   fullScreen();
-  frameRate(200);
-  firstX = random(width);
+  frameRate(60);
+  firstX = random(frameCount % width);
   firstY = random(height);
-  firstcX = random(width);
+  firstcX = random(frameCount % width);
   firstcY = random(height);
-  lastcX = random(width);
+  lastcX = random(frameCount % width);
   lastcY = random(height);
-  lastX = random(width);
+  lastX = random(frameCount % width);
   lastY = random(height);
-  xChange = lastX - lastcX;
-  yChange = lastY - lastcY;
+  t = 0.0;
 }
+
+float stepSize = 1.0/frameRate;
 
 void draw() {
   //background(0, 255, 0);
@@ -27,29 +31,55 @@ void draw() {
   rectMode(CORNERS);
   rect(0, 0, width, height);
   //noFill();
-  r = noise(frameCount * 0.01) * 255;
+  r = noise(frameCount * 0.11) * 255;
   g = noise(frameCount * .033) * 255;
   b = noise(frameCount * .025) * 255;
   stroke(r, g, b);
   fill(r, g, b);
-  if(frameCount % 5 == 0) {
-    drawCurve();
+  drawCurve();
+  if(frameCount % 60 == 0) {
+    firstX = lastX;
+    firstY = lastY;
+    xChange = lastX - lastcX;
+    yChange = lastY - lastcY;
+    firstcX = lastX + xChange;
+    firstcY = lastY + yChange;
+    lastX = random(frameCount % width);
+    lastY = random(height);
+    lastcX = random(frameCount % width);
+    lastcY = random(height);
+    t = 0.0;
   }
+  t += stepSize;
 }
 
 void drawCurve() {
   //stroke(255, 0, 0);
-  bezier(firstX, firstY, firstcX, firstcY, lastcX, lastcY, lastX, lastY);
-  firstX = lastX;
-  firstY = lastY;
-  xChange = lastX - lastcX;
-  yChange = lastY - lastcY;
-  firstcX = lastX + xChange;
-  firstcY = lastY + yChange;
-  lastX = random(width);
-  lastY = random(height);
-  lastcX = random(width);
-  lastcY = random(height);
+  //draw previous points
+  beginShape();
+  for (PVector point : points) {
+    curveVertex(point.x, point.y);
+  }
+  endShape();
+
+  //add a new point
+  //PVector prevPoint = points.get(points.size()-1);
+
+  float x = (1-t)*(1-t)*(1-t)*firstX + 3*(1-t)*(1-t)*t*firstcX + 3*(1-t)*t*t*lastcX + t*t*t*lastX;
+  float y = (1-t)*(1-t)*(1-t)*firstY + 3*(1-t)*(1-t)*t*firstcY + 3*(1-t)*t*t*lastcY + t*t*t*lastY;
+  points.add(new PVector(x, y));
+  
+  //update variables for next curve
+  //firstX = lastX;
+  //firstY = lastY;
+  //xChange = lastX - lastcX;
+  //yChange = lastY - lastcY;
+  //firstcX = lastX + xChange;
+  //firstcY = lastY + yChange;
+  //lastX = random(frameCount % width);
+  //lastY = random(height);
+  //lastcX = random(frameCount % width);
+  //lastcY = random(height);
 }
  
 //void draw() {  // draw() loops forever, until stopped
