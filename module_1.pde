@@ -35,9 +35,6 @@ class Box {
   float h;
   float w;
   boolean lit;
-  ////for lit up box that grows
-  //float wGrow;
-  //float hGrow;
   
   Box(float x, float y){
     xpos = x;
@@ -49,34 +46,14 @@ class Box {
     }
     w = width/9.0;
     lit = false;
-    //wGrow = 0.0;
-    //hGrow = 0.0;
   }
   
   void display() {
     rectMode(CENTER);
-    //if (lit) {
-    //  fill(0, 0, 0);
-    //  rect(xpos, ypos, w, h);
-    //  r = noise(frameCount * 0.005) * 50;
-    //  g = noise(frameCount * .025) * 255;
-    //  b = noise(frameCount * .03) * 200;
-    //  fill(r, g, b);
-    //  rect(xpos, ypos, wGrow, hGrow);      
-    //} else {
     rect(xpos, ypos, w, h);
     //}
     
   }
-  
-  //void grow() {
-  //  if (wGrow <= width/19.0) {
-  //    w += 0.1;
-  //  }
-  //  if (hGrow <= height/ (19.0/2)) {
-  //    h += 0.1;
-  //  }
-  //}
 }
 
 class Ellipse {
