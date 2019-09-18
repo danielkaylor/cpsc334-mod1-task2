@@ -128,8 +128,7 @@ class Ellipse {
   }
 }
 void setup() {  // setup() runs once
-  size(1920, 1200);
-  //fullScreen();
+  fullScreen();
   
   frameRate(60);
   firstX = random(frameCount % width);
