@@ -22,7 +22,7 @@ replacing ```path-to-bash-script``` with the path to the bash script you just wr
 
 3. Reboot the Pi, or continue on and reboot at the end of setup.
 
-The Becton Center Café display does not need to worry about overscanning, but the default settings on the Pi will assume overscan is a problem, reducing the size of the display and putting black bars around the edges. Use the following steps to avoid this problem:
+The Becton Center Café display does not need to worry about overscan, but the default settings on the Pi will assume overscan is a problem, reducing the size of the display and putting black bars around the edges. Use the following steps to avoid this problem:
 
 1. Open /boot/config.txt with a text editor.
 
